@@ -1,6 +1,8 @@
 class PostImage < ApplicationRecord
   
   has_many :post_comments, dependent: :destroy
+  has_many :favorites, dependent: :destroy
+  belongs_to :user
   
   has_one_attached :image
   
@@ -12,6 +14,8 @@ class PostImage < ApplicationRecord
     image
   end
   
-  belongs_to :user
+  def favorited_by?(user)
+    favorites.exists?(user_id: user.id)
+  end
   
 end
